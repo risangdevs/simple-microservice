@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const Item = require("./models/items");
 const { connect } = require("./config/mongo");
+const pub = require("./pub");
 
 app.use(express.json());
 // Routes for CRUD operations
@@ -27,6 +28,7 @@ app.post("/items", (req, res) => {
   // Create a new item in the database
   Item.add(req.body)
     .then((items) => {
+      pub()
       res.status(200).json(items);
     })
     .catch((_) => console.log(_));
